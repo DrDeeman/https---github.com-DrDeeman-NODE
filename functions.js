@@ -1,9 +1,10 @@
 exports.pushProduct=(c,f,fr,content)=>{
     c.question("Введите название товара.\n",(str)=>{
-        c.question("Введите цену товара.\n",(str2)=>{
+       c.question("Введите цену товара.\n",(str2)=>{
         content.push({"Comics":str,"Count":str2});
         f.writeFile(fr,JSON.stringify(content),function(err){if(err)console.log(err);});
         console.log("Товар создан.\n");
+        res();
         });
         });
 }
@@ -18,6 +19,7 @@ exports.changeProduct=(c,f,fr,content)=>{
                 console.log("Цена товара изменена.");
             });
         }else console.log("Элемент не найден.\n");
+        res();
        })
 }
 
@@ -29,5 +31,6 @@ exports.deleteProduct=(c,f,fr,content)=>{
             f.writeFile(fr,JSON.stringify(content),function(err){if(err)console.log(err);});
             console.log("Элемент удален.\n");
         }else console.log("Элемент не найден.\n");
+        res();
     });
 }
