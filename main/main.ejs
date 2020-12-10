@@ -1,0 +1,14 @@
+<%- include('header.ejs'); %>
+<table width="30%;"  style="border:1px solid black;">
+    <tr><th >Комиксы</th><th >Цена</th></tr>
+    <% mas.forEach((ob,i)=>{ %>
+        <tr style="border:1px solid black;">
+            <td style='text-align:center;'><%= ob.Comics %></td>
+            <td style='text-align:center;'><%= ob.Count %></td>
+           
+        </tr>
+   <% }) %>
+</table>
+
+
+<%- include('footer.ejs'); %>

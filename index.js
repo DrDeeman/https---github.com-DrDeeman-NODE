@@ -1,65 +1,31 @@
-
-const readline = require('readline');
-const c = readline.createInterface({
-    input:process.stdin,
-    output:process.stdout
-})
-
+const http = require('express');
+const bodyParser = require("body-parser");
+const port = 3000;
+const app = http();
 const f= require('fs');
 const fp = require('path');
-const { Console } = require('console');
-const functions = require(fp.resolve(__dirname,'functions.js'));
-const fileFunction = require(fp.resolve(__dirname,'file.js'));
-fileFunction.fileExists(f);
-const fr = fp.resolve(__dirname,'Products.json');
+const urlencodedParser = bodyParser.urlencoded({extended: true});
+const mainRouter = http.Router();
+const mainController = require(__dirname+"/controllers.js");
+mainRouter.use('/postcomics',mainController.appComics);
+mainRouter.use('/form.html',mainController.renderMain);
+mainRouter.use('/main.html',mainController.renderComics);
+mainRouter.use('/form_redact.html', mainController.renderMainRedact);
+mainRouter.use('/postcomicsredact',mainController.redactComics);
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/',mainRouter);
 
-let data ;
-let content;
-let  pr;
+
+//mainRouter.get('/form.html', (request, response) => {
+   // response.sendFile(__dirname+'/template/form.html')
+//});
 
 
 
 
-    pr = new Promise((res,rej)=>{ f.readFile(fr,'utf-8',
-    (err, data2) => {
-        if (err) {
-          console.log(err.stack);
-          return;
-        }
-        
-       res(data2);
-    });
-      });
-     pr.then(
-         res =str=>{data=str;content = JSON.parse(data); });
-
-let pr2 = new Promise((res,rej)=>{
-c.question('Приветствуем Вас. Введите номер желаемого действия.\n 1.Просмотреть каталог.\n 2.Добавить товар.\n 3.Изменить товар.\n 4.Удалить товар.',
-(number)=>{
-    switch(number){
-       case '1':
-            
-            content.forEach((ob)=>{console.log("Комикс: "+ob.Comics+".Цена: "+ob.Count);});
-            res();
-           break;
-       case '2':
-       functions.pushProduct(c,f,fr,content);
-           break;
-       case '3':
-          functions.changeProduct(c,f,fr,content);
-           break;
-       case '4':
-       functions.deleteProduct(c,f,fr,content);
-           break;
-    }
-
-}
-)
-
+const server = app.listen(port, (error) => {
+    if (error) return console.log(`Error: ${error}`);
+ 
+    console.log(`Server listening on port ${server.address().port}`);
 });
-pr2.then(
-res=()=>{c.close();}
-);
-
-
-
