@@ -1,34 +1,34 @@
-const f= require('fs');
-const fp = require('path');
+const fileModule= require('fs');
+const pathModule = require('path');
 const { request, response } = require('express');
-let mas;
+let massiveJSON;
 
 
  function readF(request,response,type){
-    const fr = fp.resolve(__dirname,'Products.json');
-    let pr = new Promise((resolve,reject)=>{
-        f.readFile(fr,'utf-8',
-        (err, data2) => {
-            if (err) {
-              reject(new Error(err.stack));
-            } else resolve(JSON.parse(data2));
+    const fileProduct = pathModule.resolve(__dirname,'Products.json');
+    let promise = new Promise((resolve,reject)=>{
+        fileModule.readFile( fileProduct ,'utf-8',
+        (error, data) => {
+            if (error) {
+              reject(new Error(error.stack));
+            } else resolve(JSON.parse(data));
         });
     });
-    pr.then(
-        resolve=(mas_parse)=>{
+    promise.then(
+        resolve=(massiveParseJSON)=>{
             switch(type){
             case 'create':
-            mas_parse.push({"Comics":request.body.comicsname,"Count":request.body.countcomics});
-            f.writeFile(fr,JSON.stringify(mas_parse),function(err){if(err)console.log(err);});
+                massiveParseJSON.push({"Comics":request.body.comicsname,"Count":request.body.countcomics});
+            fileModule.writeFile( fileProduct ,JSON.stringify(massiveParseJSON),function(error){if(error)console.log(error);});
             break;
             case 'redact':
-                mas_parse[request.body.numbercomics-1].Comics = request.body.comicsname;
-                mas_parse[request.body.numbercomics-1].Count = request.body.countcomics;
-                f.writeFile(fr,JSON.stringify(mas_parse),function(err){if(err)console.log(err);});
+                massiveParseJSON[request.body.numbercomics-1].Comics = request.body.comicsname;
+                massiveParseJSON[request.body.numbercomics-1].Count = request.body.countcomics;
+                fileModule.writeFile( fileProduct ,JSON.stringify(massiveParseJSON),function(error){if(error)console.log(error);});
                 break;
         }
-        mas=Array.from(mas_parse);
-        response.render(__dirname+'/main/main.ejs',{mas});
+        massiveJSON=Array.from(massiveParseJSON);
+        response.render(__dirname+'/main/main.ejs',{massiveJSON});
            
         }
 
