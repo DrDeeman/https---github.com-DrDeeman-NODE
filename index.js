@@ -4,15 +4,14 @@ const port = 3000;
 const app = http();
 const urlencodedParser = bodyParser.urlencoded({extended: true});
 const mainRouter = http.Router();
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
 const mainController = require(__dirname+"/controllers.js");
 mainRouter.use('/postcomics',mainController.appComics);
+mainRouter.use('/deletecomics',mainController.deleteComics);
 mainRouter.use('/form.html',mainController.loadComics);
 mainRouter.use('/main.html',mainController.renderComics);
-mainRouter.use('/form_redact.html', mainController.renderMainRedact);
 mainRouter.use('/postcomicsredact',mainController.editComics);
-app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use('/',mainRouter);
 
 

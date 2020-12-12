@@ -12,7 +12,7 @@ function readF(request,response,type){
             if (error) {
               reject(new Error(error.stack));
             } else {
-                if(type=='add')resolve(JSON.parse(data));
+                if(type=='add' || type=='edit' || type=='delete')resolve(JSON.parse(data));
                 if(type=='load') resolve(data);
             }
         });
@@ -21,10 +21,21 @@ function readF(request,response,type){
         resolve=(data)=>{
             switch(type){
                 case 'add':
-                    console.log(request.body);
          data.push(request.body);
         fileModule.writeFile( fileProduct ,JSON.stringify(data),function(error){if(error)console.log(error);});
-     break;
+        response.sendStatus(200);
+        break;
+     case 'edit':
+        data[request.body.Number-1].Comics = request.body.Comics;
+        if(Object.keys(request.body).length==3) data[request.body.Number-1].Count = request.body.Count;
+         fileModule.writeFile( fileProduct ,JSON.stringify(data),function(error){if(error)console.log(error);});
+         response.sendStatus(200);
+         break;
+         case 'delete':
+             data.splice(request.body.Number-1,1);
+             fileModule.writeFile( fileProduct ,JSON.stringify(data),function(error){if(error)console.log(error);});
+             response.sendStatus(200);
+             break;
      case 'load':
         response.send(data);
         break;
@@ -33,29 +44,18 @@ function readF(request,response,type){
     )
 }
 exports.appComics = function(request,response){
-    if(request.body){
-      readF(request,response,'add');
-    }
-
+    if(request.body)readF(request,response,'add'); 
 }
 
 exports.editComics=function(request,response){
-    if(request.body){
-        readF(request,response,'edit');
-    }
+    if(request.body)  readF(request,response,'edit');
 }
 
-exports.renderMain = function(request,response){
- 
-}
-exports.renderMainRedact = function(request,response){
-    response.sendFile(__dirname+'/main/form_redact.html');
+exports.deleteComics = function(request,response){
+    if(request.body.Number!='')readF(request,response,'delete');
 }
 exports.renderComics = function(request,response){
- 
-
-        response.sendFile(__dirname+'/main/main.html');
-
+  response.sendFile(__dirname+'/main/main.html');
 }
 
 exports.loadComics = function(request,response){
