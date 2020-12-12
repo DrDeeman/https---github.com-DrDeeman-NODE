@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <style>
+            table{
+                width:30%;
+            }
+            table tr{
+                width:100%;
+            }
+        </style>
+    <script>
+        async function loadComics(){
+            let response = await fetch('/form.html');
+            let masJSON = await  response.json();
+             masJSON.forEach((ob,i)=>{
+             let tr = document.createElement('tr');
+             let th1 = document.createElement('th');
+             let th2 =  document.createElement('th');
+             let th3 =  document.createElement('th');
+             th1.innerText = i;
+             th2.innerText = ob.Comics;
+             th3.innerText = ob.Count;
+             tr.appendChild(th1);
+             tr.appendChild(th2);
+             tr.appendChild(th3);
+             document.getElementById('tableComics').appendChild(tr);
+             });
+           // console.log(response.json());
+        }
+        loadComics();
+
+        async function createProduct(){
+            alert(document.getElementById('countcomics').value);
+            let response = await fetch('/postcomics',{
+                method:"POST",
+                headers:{
+                    'Content-type':'application/text;charset=utf-8'
+                },
+                body:JSON.stringify({
+                    Comics:document.getElementById('comicsname').value,
+                    Count:document.getElementById('countcomics').value
+                })
+            });
+        }
+    </script>
+    </head>
+    <body>
+        <h1>Список комиксов</h1>
+        <table id="tableComics">
+            <tr><th>Номер комикса</th><th>Название комикса</th><th>Цена комикса</th></tr>
+        </table>
+        <form  style="width:30%;">
+            <div style="width:100%;margin-top:20px;">
+            <label>Номер комикса</label>
+            <input type='text' id='numbercomics' style="float:right;"></input>
+        </div>
+        <div style="width:100%;margin-top:20px;">
+            <label>Новое название комикса</label>
+            <input type='text' id='comicsname' style="float:right;"></input>
+        </div>
+        <div style="width:100%;margin-top:20px;">
+            <label>Новая цена комикса</label>
+            <input type='text' id='countcomics' style="float:right;"></input>
+        </div>
+        </form>
+        <button onclick='createProduct();'>Создать товар</button><button>Редактировать товар</button>
+    </body>
+</html>

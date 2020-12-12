@@ -1,64 +1,63 @@
 const fileModule= require('fs');
 const pathModule = require('path');
 const { request, response } = require('express');
-let massiveJSON;
+let arrayJSON;
 
 
- function readF(request,response,type){
+function readF(request,response,type){
     const fileProduct = pathModule.resolve(__dirname,'Products.json');
     let promise = new Promise((resolve,reject)=>{
         fileModule.readFile( fileProduct ,'utf-8',
         (error, data) => {
             if (error) {
               reject(new Error(error.stack));
-            } else resolve(JSON.parse(data));
+            } else {
+                if(type=='add')resolve(JSON.parse(data));
+                if(type=='load') resolve(data);
+            }
         });
     });
     promise.then(
-        resolve=(massiveParseJSON)=>{
+        resolve=(data)=>{
             switch(type){
-            case 'create':
-                massiveParseJSON.push({"Comics":request.body.comicsname,"Count":request.body.countcomics});
-            fileModule.writeFile( fileProduct ,JSON.stringify(massiveParseJSON),function(error){if(error)console.log(error);});
-            break;
-            case 'redact':
-                massiveParseJSON[request.body.numbercomics-1].Comics = request.body.comicsname;
-                massiveParseJSON[request.body.numbercomics-1].Count = request.body.countcomics;
-                fileModule.writeFile( fileProduct ,JSON.stringify(massiveParseJSON),function(error){if(error)console.log(error);});
-                break;
-        }
-        massiveJSON=Array.from(massiveParseJSON);
-        response.render(__dirname+'/main/main.ejs',{massiveJSON});
-           
-        }
-
+                case 'add':
+                    console.log(request.body);
+         data.push(request.body);
+        fileModule.writeFile( fileProduct ,JSON.stringify(data),function(error){if(error)console.log(error);});
+     break;
+     case 'load':
+        response.send(data);
+        break;
+            }
+    }
     )
-    .catch(
-        reject=(err)=>{
-            console.log("Ошибка чтения файла."+ err.toString());
-        }
-    )
-    
 }
 exports.appComics = function(request,response){
     if(request.body){
-        readF(request,response,'create');
+      readF(request,response,'add');
     }
 
 }
 
-exports.redactComics=function(request,response){
+exports.editComics=function(request,response){
     if(request.body){
-        readF(request,response,'redact');
+        readF(request,response,'edit');
     }
 }
 
 exports.renderMain = function(request,response){
-    response.sendFile(__dirname+'/main/form.html');
+ 
 }
 exports.renderMainRedact = function(request,response){
     response.sendFile(__dirname+'/main/form_redact.html');
 }
 exports.renderComics = function(request,response){
-    readF(request,response,'read');  
+ 
+
+        response.sendFile(__dirname+'/main/main.html');
+
+}
+
+exports.loadComics = function(request,response){
+    readF(request,response,'load');
 }

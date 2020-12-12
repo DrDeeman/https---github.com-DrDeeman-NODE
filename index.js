@@ -6,12 +6,13 @@ const urlencodedParser = bodyParser.urlencoded({extended: true});
 const mainRouter = http.Router();
 const mainController = require(__dirname+"/controllers.js");
 mainRouter.use('/postcomics',mainController.appComics);
-mainRouter.use('/form.html',mainController.renderMain);
+mainRouter.use('/form.html',mainController.loadComics);
 mainRouter.use('/main.html',mainController.renderComics);
 mainRouter.use('/form_redact.html', mainController.renderMainRedact);
-mainRouter.use('/postcomicsredact',mainController.redactComics);
+mainRouter.use('/postcomicsredact',mainController.editComics);
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use('/',mainRouter);
 
 
