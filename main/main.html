@@ -78,7 +78,7 @@
             if (response.ok) {
                 loadComics();
             }
-             else if(response.number==500){
+             else if(response.status==500){
                  alert("Ошибка сервера. Попробуйте позже.");
              }
         }
@@ -115,7 +115,7 @@
             if (response.ok) {
                 loadComics();
             }
-             else if(response.number==500){
+             else if(response.status==500){
                  alert("Ошибка сервера. Попробуйте позже.");
              }
 
@@ -135,7 +135,7 @@
             if (response.ok) {
                 loadComics();
             }
-             else if(response.number==500){
+             else if(response.status==500){
                  alert("Ошибка сервера. Попробуйте позже.");
              }
         }
