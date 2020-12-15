@@ -1,16 +1,7 @@
 <html>
 
 <head>
-    <style>
-        table {
-            width: 30%;
-        }
-
-        table tr {
-            width: 100%;
-        }
-    </style>
-
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/styles.css' %}">
 </head>
 
 <body>
@@ -22,18 +13,18 @@
             <th>Цена комикса</th>
         </tr>
     </table>
-    <form style="width:30%;">
-        <div style="width:100%;margin-top:20px;">
+    <form>
+        <div class='block'>
             <label>Номер комикса</label>
-            <input type='text' id='numbercomics' style="float:right;"></input>
+            <input type='text' id='numbercomics'></input>
         </div>
-        <div style="width:100%;margin-top:20px;">
+        <div class='block'>
             <label>Новое название комикса</label>
-            <input type='text' id='comicsname' style="float:right;"></input>
+            <input type='text' id='comicsname' ></input>
         </div>
-        <div style="width:100%;margin-top:20px;">
+        <div  class='block'>
             <label>Новая цена комикса</label>
-            <input type='text' id='countcomics' style="float:right;"></input>
+            <input type='text' id='countcomics'></input>
         </div>
     </form>
     <button onclick='createProduct(); '>Создать товар</button>

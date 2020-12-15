@@ -1,0 +1,19 @@
+table {
+    width: 30%;
+}
+
+table tr {
+    width: 100%;
+}
+
+form{
+    width:30%; 
+}
+.block{
+    width:100%;
+    margin-top:20px; 
+}
+
+input{
+    float:right;
+}
