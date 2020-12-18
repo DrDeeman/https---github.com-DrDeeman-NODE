@@ -1,0 +1,35 @@
+<%- include('header.ejs'); %>
+
+
+
+   
+    <table id="tableComics">
+        <tr>
+            <th>Номер комикса</th>
+            <th>Название комикса</th>
+            <th>Цена комикса</th>
+        </tr>
+    </table>
+    <form>
+        <div class='block'>
+            <label>Номер комикса</label>
+            <input type='text' id='numbercomics'></input>
+        </div>
+        <div class='block'>
+            <label>Новое название комикса</label>
+            <input type='text' id='comicsname' ></input>
+        </div>
+        <div  class='block'>
+            <label>Новая цена комикса</label>
+            <input type='text' id='countcomics'></input>
+        </div>
+    </form>
+   
+    <button onclick='createProduct(); '>Создать товар</button>
+    <button onclick='redactProduct(); '>Редактировать товар</button>
+    <button onclick='deleteProduct(); '>Удалить товар</button>
+  
+    <script src='/scripts/scripts.js'> </script>
+
+
+<%- include('footer.ejs'); %>

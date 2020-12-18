@@ -4,7 +4,7 @@ const path = require('path');
 const port = 3000;
 const app = http();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
-app.use(http.static(__dirname+'/main/static'));
+app.use(http.static(__dirname+'/src'));
 const mainRouter = http.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

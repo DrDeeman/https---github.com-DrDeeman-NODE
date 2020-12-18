@@ -85,7 +85,7 @@ exports.deleteComics = function (request, response) {
     }
 }
 exports.renderComics = function (request, response) {
-    response.render(__dirname + '/main/main.ejs');
+    response.render(__dirname + '/src/scripts/main.ejs');
 }
 
 exports.loadComics = function (request, response) {
