@@ -1,11 +1,14 @@
 const http = require('express');
 const bodyParser = require("body-parser");
+const path = require('path');
 const port = 3000;
 const app = http();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
+app.use(http.static('main/static'));
 const mainRouter = http.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 const mainController = require(__dirname + "/controllers.js");
 mainRouter.use('/postcomics', mainController.appComics);
 mainRouter.use('/deletecomics', mainController.deleteComics);
